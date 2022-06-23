@@ -1,5 +1,9 @@
 name: Automatic Merge
 on:
+  pull_request:
+    types:
+      - labeled
+      - opened
   check_suite:
     types:
       - completed
@@ -13,7 +17,7 @@ jobs:
         uses: pascalgn/automerge-action@v0.15.3
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          MERGE_LABELS: "automerge"
+          MERGE_LABELS: "automatic pull request"
           BASE_BRANCHES: development
       - name: feedback
         if: steps.automerge.outputs.mergeResult == "merged"
