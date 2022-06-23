@@ -19,7 +19,7 @@ jobs:
           destination_branch: "development"
           pr_body: ":crown: **Automated pull request**"
           github_token: ${{ github.token }}
-          pr_label: "automatic pull request"
+          pr_label: "automatic pull request","automerge"
       - name: output-url
         run: echo ${{steps.open-pr.outputs.pr_url}}
       - name: output-number
