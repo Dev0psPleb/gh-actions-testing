@@ -1,9 +1,5 @@
 name: Automatic Merge
 on:
-  pull_request:
-    types:
-      - labeled
-      - opened
   check_suite:
     types:
       - completed
