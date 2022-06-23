@@ -1,34 +1,26 @@
-name: Automatic Merge
+name: Automerge
 on:
-  pull_request:
-    branches:
-      - main
-      - development
-      - staging
+  pull_request_target:
     types:
+      - opened
+      - synchronize
       - labeled
-  check_suite:
-    types:
-      - completed
+
+  workflow_dispatch:
+    inputs:
+      pull-request:
+        description: Pull request number
+        required: false
 
 jobs:
   automerge:
     runs-on: ubuntu-latest
     steps:
-      - id: automerge
-        name: automerge
-        uses: pascalgn/automerge-action@v0.15.3
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          MERGE_LABELS: "automatic pull request"
-          BASE_BRANCHES: development
-      - name: feedback
-        if: steps.automerge.outputs.mergeResult == "merged"
-        uses: mshick/add-pr-comment@v1
+      - uses: reitermarkus/automerge@v2
         with:
-          repo-token: ${{ github.token }}
-          repo-token-user-login: 'github-actions[bot]'
+          token: ${{ secrets.GH_PAT_TOKEN }}
+          required-labels: automerge
+          pull-request: ${{ github.event.inputs.pull-request }}
+          dry-run: true
 
-          message: |
-            ${{ steps.automerge.outputs.mergeResult }}
 
