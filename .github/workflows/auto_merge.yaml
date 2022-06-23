@@ -1,4 +1,4 @@
-name: automerge
+name: Automatic Merge
 on:
   pull_request:
     types:
@@ -15,8 +15,9 @@ jobs:
         name: automerge
         uses: pascalgn/automerge-action@v0.15.3
         env:
-          GITHUB_TOKEN: ${{ github.token }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           MERGE_LABELS: "automerge"
+          BASE_BRANCHES: development
       - name: feedback
         if: steps.automerge.outputs.mergeResult == "merged"
         uses: mshick/add-pr-comment@v1
