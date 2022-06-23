@@ -5,7 +5,8 @@ on:
       - labeled
       - opened
   check_suite:
-    types: [completed]
+    types:
+      - completed
   status: {}
 jobs:
   automerge:
