@@ -1,13 +1,8 @@
 name: Automatic pull request
 on:
-  pull_request:
-    branches: [main,development,staging]
   push:
-    branches:
-      - '*'
-      - '!main'
-      - '!development'
-      - '!staging'
+    branches: ['*']
+
 jobs:
   pr:
     name: create automatic pull request
