@@ -21,6 +21,7 @@ jobs:
           pr_title: automatic pull request
           destination_branch: "main"
           pr_body: ":crown: **Automated pull request**"
+          github_token: ${{ github.token }}
       - name: output-url
         run: echo ${{steps.open-pr.outputs.pr_url}}
       - name: output-number
