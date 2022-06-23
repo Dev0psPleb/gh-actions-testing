@@ -9,7 +9,7 @@ on:
 jobs:
   pr:
     name: create automatic pull request
-    runs-on: macos-latest
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout
         id: checkout
@@ -19,7 +19,7 @@ jobs:
         id: open-pr
         with:
           pr_title: automatic pull request
-          destination_branch: "main"
+          destination_branch: "development"
           body: ":crown: **Automated pull request**"
       - name: output-url
         run: echo ${{steps.open-pr.outputs.pr_url}}
