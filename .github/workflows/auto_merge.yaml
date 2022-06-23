@@ -1,6 +1,7 @@
 name: Automatic Merge
 on:
   pull_request:
+    branches: [main,development,staging]
     types:
       - labeled
       - opened
