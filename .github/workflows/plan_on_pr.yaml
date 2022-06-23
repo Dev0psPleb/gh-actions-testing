@@ -1,7 +1,13 @@
 name: Plan/Test on Pull Request
 on:
+  push:
+    branches:
+      - '!main'
+      - '!development'
+      - '!staging'
   pull_request:
-    branches: [main,development,staging]
+    branches:
+      - development
 
 jobs:
   lint:
