@@ -1,0 +1,30 @@
+name: Automatic pull request
+on:
+  push:
+    branches:
+      - '*'
+      - '!main'
+      - '!development'
+      - '!staging'
+jobs:
+  pr:
+    name: create automatic pull request
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        id: checkout
+        uses: actions/checkout@v2
+      - name: create pr
+        uses: repo-sync/pull-request@v2
+        id: open-pr
+        with:
+          pr_title: automatic pull request
+          destination_branch: "main"
+          pr_body: ":crown: **Automated pull request**"
+          github_token: ${{ github.token }}
+      - name: output-url
+        run: echo ${{steps.open-pr.outputs.pr_url}}
+      - name: output-number
+        run: echo ${{steps.open-pr.outputs.pr_number}}
+      - name: output-has-changed-files
+        run: echo ${{steps.open-pr.outputs.has_changed_files}}
