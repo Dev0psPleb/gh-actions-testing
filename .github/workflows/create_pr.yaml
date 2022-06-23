@@ -1,7 +1,7 @@
 name: Automatic pull request
 on:
   push:
-    branches: ['*']
+    branches: ['*','!main','!development','!staging']
 
 jobs:
   pr:
