@@ -9,7 +9,7 @@ on:
 jobs:
   pr:
     name: create automatic pull request
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     steps:
       - name: Checkout
         id: checkout
