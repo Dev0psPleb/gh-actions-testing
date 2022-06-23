@@ -1,0 +1,50 @@
+name: Plan/Test on Pull Request
+on:
+  pull_request:
+    branches: [main, development]
+
+jobs:
+  plan_and_test:
+    name: Plan
+    runs-on: macos-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Set up terraform
+        uses: hashicorp/setup-terraform@v1
+      - name: Initialize terraform
+        id: init
+        run: |
+          terraform init -input=false
+      - name: Plan terraform
+        id: plan
+        continue-on-error: true
+        run: |
+          terraform plan -input=false -no-color -out=tfplan \
+          && terraform show -no-color tfplan
+      - name: Reformat Plan
+        run: |
+          echo '${{ steps.plan.outputs.stdout || steps.plan.outputs.stderr }}' \
+          | sed -E 's/^([[:space:]]+)([-+])/\2\1/g' > plan.txt
+      - name: Put Plan in Env Var
+        run: |
+          PLAN=$(cat plan.txt)
+          echo "PLAN<<EOF" >> $GITHUB_ENV
+          echo "$PLAN" >> $GITHUB_ENV
+          echo "EOF" >> $GITHUB_ENV
+      - name: Post Plan to GitHub PR
+        uses: mshick/add-pr-comment@v1
+        with:
+          allow-repeats: true
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          repo-token-user-login: 'github-actions[bot]'
+          message: |
+            ## ${{ matrix.path }} plan
+            ```diff
+            + Green
+            - Red
+            ! Orange
+            @@ Pink @@
+            #Gray
+            ${{ env.PLAN }}
+            ```
